@@ -18,17 +18,6 @@ const Map = props => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY
   })
 
-  function handleCornerCoordonates() {
-    this.getBounds()
-      ? props.setCoordonates({
-          ne_lat: this.getBounds().getNorthEast().lat(),
-          ne_lng: this.getBounds().getNorthEast().lng(),
-          sw_lat: this.getBounds().getSouthWest().lat(),
-          sw_lng: this.getBounds().getSouthWest().lng()
-        })
-      : ''
-  }
-
   return (
     <>
       {isLoaded ? (
@@ -36,12 +25,6 @@ const Map = props => {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={4}
-          onLoad={map => {
-            handleCornerCoordonates
-          }}
-          onZoomChanged={handleCornerCoordonates}
-          onDragEnd={handleCornerCoordonates}
-          onInit={handleCornerCoordonates}
           options={{
             zoomControl: false,
             streetViewControl: false,
@@ -55,13 +38,14 @@ const Map = props => {
             }
             return (
               <Marker
-                key={marker.hex}
+                key={marker.id}
                 position={markerPos}
                 icon={{
                   url: Plane,
                   size: { width: 60, height: 100 },
                   anchor: { x: 15, y: 50 },
-                  scaledSize: { width: 30, height: 30 }
+                  scaledSize: { width: 30, height: 30 },
+                  rotation: marker.dir
                 }}
               />
             )
@@ -75,9 +59,7 @@ const Map = props => {
 }
 
 Map.propTypes = {
-  coordonates: PropTypes.object,
-  setCoordonates: PropTypes.func,
-  markers: PropTypes.object,
+  // markers: PropTypes.object,
   setMarkers: PropTypes.func
 }
 

@@ -6,30 +6,26 @@ import {
 } from '@syncfusion/ej2-react-calendars'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 const DateTimePicker = props => {
   const onChange = args => {
-    props.setDate(args.value)
+    const millis = args.value.valueOf()
+    const seconds = millis / 1000
+    props.setDate(moment.unix(seconds).format('yyyy-MM-DD HH:mm:ss'))
   }
+
   return (
     <Container>
       <DateTimePickerComponent
-        id='datetimepicker'
         placeholder='Selectionnez une date et une heure'
         enable={false}
-        format='dd/MM/yyyy hh:mm'
+        format='dd/MM/yyyy HH:mm'
+        timeFormat='HH:mm'
         change={onChange}
-        value={props.date}
-        // min={new Date('2022-04-29T12:00')}
-        max={
-          new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            new Date().getDay(),
-            new Date().getHours(),
-            new Date().getMinutes()
-          )
-        }
+        value={moment(props.date).format('DD-MM-yyyy HH:mm')}
+        min={moment('2022-04-29 12:00:00').format('yyyy-MM-DD HH:mm:ss')}
+        max={moment().format('yyyy-MM-DD HH:00:00')}
         enableMask={true}
       >
         <Inject services={[MaskedDateTime]} />

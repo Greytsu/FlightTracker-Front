@@ -10,17 +10,23 @@ import PropTypes from 'prop-types'
 const Historical = props => {
   return (
     <Container>
-      <GridComponent dataSource={props.historicalData}>
+      <GridComponent dataSource={props.historicalData} height={640}>
         <ColumnsDirective>
           <ColumnDirective
-            field='hex'
+            field='flight.hex'
             headerText='Hex'
             width='100'
             textAlign='Center'
           />
           <ColumnDirective
-            field='reg_number'
-            headerText='Reg Number'
+            field='flight.flight_number'
+            headerText='Numéro de vol'
+            width='100'
+            textAlign='Center'
+          />
+          <ColumnDirective
+            field='flight.plane.regNumber'
+            headerText='Immatriculation'
             width='100'
             textAlign='Center'
           />
@@ -52,8 +58,7 @@ const Container = styled.div`
   box-sizing: content-box;
 `
 Historical.propTypes = {
-  historicalData: PropTypes.object,
-  setHistoricalData: PropTypes.func
+  historicalData: PropTypes.object
 }
 
 export default Historical
